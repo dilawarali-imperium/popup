@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pop up Template 1</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="popup-div">
+        <div id="popup-1" class="popup">
+            <div class="img-container" id="imageContainer">
+                <img src="./assets/image.png" class="img-100">
+            </div>
+            <!-- <div class="btn-cross-container">
+                <button class="btn-cross" onclick="btnCross()">
+                    <img src="./assets/cross.svg">
+                </button>
+            </div> -->
+            <div class="editable-text" id="editableText" contenteditable="true">This is editable text.</div>
+            <div class="editable-text1" id="editableText1" contenteditable="true">This is editable text.</div>
+            <div class="editable-text2" id="editableText2" contenteditable="true">This is editable text.</div>
+            <div class="anchor-container">
+                <a href="#" class="btn-popup" id="dynamicAnchor">Click me!</a>
+            </div>
+        </div>
+        <div id="popup-2" class="popup-2">
+            <div class="cont-1">
+                <!-- <div class="btn-cross-container-2">
+                    <button class="btn-cross-2" onclick="btnCross1()">
+                        <img src="./assets/cross-2.svg">
+                    </button>
+                </div> -->
+                <div class="editable-text" id="editableText" contenteditable="true">This is editable text.</div>
+                <div class="editable-text1" id="editableText1" contenteditable="true">This is editable text.</div>
+                <div class="editable-text2" id="editableText2" contenteditable="true">This is editable text.</div>
+                <form action="">
+                    <input type="text" class="form-input">
+                    <div class="button-container" id="buttonContainer">
+                        <input type="submit" value="Submit" class="btn-popup-2">
+                    </div>
+                </form>
+            </div>
+            <div class="img-container" id="imageContainer">
+                <img src="./assets/image-2.png" class="img-100">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function btnCross() {
+            var popup1 = document.getElementById("popup-1");
+            popup1.style.display = "none";
+        }
+
+        function btnCross1() {
+            var popup2 = document.getElementById("popup-2");
+            popup2.style.display = "none";
+        }
+
+        setTimeout(function () {
+            var popup1 = document.getElementById("popup-1");
+            popup1.classList.add('show');
+        }, 5000);
+
+        setTimeout(function () {
+            var popup2 = document.getElementById("popup-2");
+            popup2.classList.add('show-1');
+        }, 3000);
+    </script>
+</body>
+
+</html>

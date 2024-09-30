@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamics CTA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="main">
+        <div class="components">
+            <div class="components-container">
+                <div class="btn-container">
+                    <button id="btn-select" onclick="btnSelect()">Select Popup</button>
+                    <button id="btn-add" onclick="btnAdd()">Add</button>
+                    <button id="btn-content" onclick="btnContent()">Content</button>
+                </div>
+                <div id="select-div">
+                    <div class="select-btn-container">
+                        <button id="selectPopup1">Select Popup 1</button>
+                        <button id="selectPopup2">Select Popup 2</button>
+                    </div>
+                </div>
+                <div id="add-div">
+                    <div class="add-btn-div">
+                        <button id="bottom-right" onclick="btnBottomRight()"><img src="./assets/bottom-right.svg"
+                                id="img-bottom-right" class="img-icons-add"></button>
+                        <button id="bottom-left" onclick="btnBottomLeft()"><img src="./assets/bottom-left.svg"
+                                id="img-bottom-left" class="img-icons-add"></button>
+                    </div>
+                    <div class="add-btn-div">
+                        <button id="top-right" onclick="btnTopRight()"><img src="./assets/top-right.svg"
+                                id="img-top-right" class="img-icons-add"></button>
+                        <button id="top-left" onclick="btnTopLeft()"><img src="./assets/top-left.svg" id="img-top-left"
+                                class="img-icons-add"></button>
+                    </div>
+                    <div class="add-btn-div">
+                        <button id="center" onclick="btnCenter()"><img src="./assets/center.svg" id="img-center"
+                                class="img-icons-add"></button>
+                    </div>
+                </div>
+                <div id="content-div">
+                    <button class="accordion">Popup Setting</button>
+                    <div class="panel">
+                        <div class="mar-b">
+                            <p class="text">Background Image</p>
+                            <input type="file" id="imageInput" accept="image/*" onchange="changeBackgroundImage(event)">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Background Color</p>
+                            <input type="color" id="colorInput" onchange="changeBackgroundColor(event)">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Background Size</p>
+                            <select id="sizeDropdown" onchange="changeBackgroundSize(event)">
+                                <option value="cover">Cover</option>
+                                <option value="contain">Contain</option>
+                                <option value="100% 100%">100% 100%</option>
+                                <option value="50% 50%">50% 50%</option>
+                                <option value="auto">Auto</option>
+                            </select>
+                        </div>
+                        <div>
+                            <p class="text">Border Radius</p>
+                            <input type="text" id="numberInput" placeholder="give in px e.g. 10px"
+                                onchange="changeBorderRadius(event)">
+                        </div>
+                    </div>
+
+                    <button class="accordion">Image Setting</button>
+                    <div class="panel">
+                        <div class="mar-b">
+                            <p class="text">Select Image</p>
+                            <input type="file" id="fileInput" accept="image/*">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Image Width Type</p>
+                            <select id="imageWidthType">
+                                <option value="px">Pixels</option>
+                                <option value="100%">100%</option>
+                            </select>
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Image Width</p>
+                            <input type="number" id="imageWidth" placeholder="px" value="300">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Image Position</p>
+                            <select id="justifyContent">
+                                <option value="flex-start">Left</option>
+                                <option value="center" selected>Center</option>
+                                <option value="flex-end">Right</option>
+                            </select>
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Border Radius Top Left</p>
+                            <input type="number" id="topLeftRadius" placeholder="px" value="0">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Border Radius Top Right</p>
+                            <input type="number" id="topRightRadius" placeholder="px" value="0">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Border Radius Bottom Left</p>
+                            <input type="number" id="bottomLeftRadius" placeholder="px" value="0">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Border Radius Bottom Right</p>
+                            <input type="number" id="bottomRightRadius" placeholder="px" value="0">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Margin Bottom</p>
+                            <input type="number" id="marginBottomImage" placeholder="px" value="0">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Margin Top</p>
+                            <input type="number" id="marginTopImage" placeholder="px" value="0">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Margin Right</p>
+                            <input type="number" id="marginRightImage" placeholder="px" value="0">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Margin Left</p>
+                            <input type="number" id="marginLeftImage" placeholder="px" value="0">
+                        </div>
+                        <button id="applyImageStyles">Apply Image Styles</button>
+                    </div>
+
+                    <button class="accordion">Heading Setting</button>
+                    <div class="panel">
+                        <div class="mar-b">
+                            <p class="text">Font Size</p>
+                            <input type="number" id="fontSize" placeholder="px" value="16">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Font Weight</p>
+                            <input type="number" id="fontWeight" placeholder="100-800" value="400">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Font Color</p>
+                            <input type="color" id="fontColor" value="#000000">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Text Align</p>
+                            <select id="textAlign">
+                                <option value="left">Left</option>
+                                <option value="center" selected>Center</option>
+                                <option value="right">Right</option>
+                            </select>
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Margin Bottom</p>
+                            <input type="number" id="marginBottom" placeholder="px" value="0">
+                        </div>
+                        <button id="applyTextStyle">Apply Text Style</button>
+                    </div>
+
+                    <button class="accordion">Sub-Heading Setting</button>
+                    <div class="panel">
+                        <div class="mar-b">
+                            <p class="text">Font Size</p>
+                            <input type="number" id="fontSize1" placeholder="px" value="16">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Font Weight</p>
+                            <input type="number" id="fontWeight1" placeholder="100-800" value="400">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Font Color</p>
+                            <input type="color" id="fontColor1" value="#000000">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Text Align</p>
+                            <select id="textAlign1">
+                                <option value="left">Left</option>
+                                <option value="center" selected>Center</option>
+                                <option value="right">Right</option>
+                            </select>
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Margin Bottom</p>
+                            <input type="number" id="marginBottom1" placeholder="px" value="0">
+                        </div>
+                        <button id="applyTextStyle1">Apply Text Style</button>
+                    </div>
+
+                    <button class="accordion">Paragraph Setting</button>
+                    <div class="panel">
+                        <div class="mar-b">
+                            <p class="text">Font Size</p>
+                            <input type="number" id="fontSize2" placeholder="px" value="16">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Font Weight</p>
+                            <input type="number" id="fontWeight2" placeholder="100-800" value="400">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Font Color</p>
+                            <input type="color" id="fontColor2" value="#000000">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Text Align</p>
+                            <select id="textAlign2">
+                                <option value="left">Left</option>
+                                <option value="center" selected>Center</option>
+                                <option value="right">Right</option>
+                            </select>
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Margin Bottom</p>
+                            <input type="number" id="marginBottom2" placeholder="px" value="0">
+                        </div>
+                        <button id="applyTextStyle2">Apply Text Style</button>
+                    </div>
+
+                    <button class="accordion">Anchor Setting</button>
+                    <div class="panel">
+                        <div class="mar-b">
+                            <p class="text">Anchor Text</p>
+                            <input type="text" id="anchorText" placeholder="Enter anchor text" value="Click me!">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Anchor Link</p>
+                            <input type="url" id="anchorHref" placeholder="Enter URL" value="#">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Anchor Color</p>
+                            <input type="color" id="anchorTextColor" value="#ffffff">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Anchor Background Color</p>
+                            <input type="color" id="anchorBgColor" value="#007bff">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Anchor Width</p>
+                            <select id="anchorWidth">
+                                <option value="auto">Fit to Content</option>
+                                <option value="100%">100%</option>
+                            </select>
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Anchor Position</p>
+                            <select id="justifyContent1">
+                                <option value="flex-start">Left</option>
+                                <option value="center" selected>Center</option>
+                                <option value="flex-end">Right</option>
+                            </select>
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Anchor Margin Bottom</p>
+                            <input type="number" id="anchorMarginBottom" placeholder="px" value="0">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Anchor Margin Top</p>
+                            <input type="number" id="anchorMarginTop" placeholder="px" value="0">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Anchor Margin Right</p>
+                            <input type="number" id="anchorMarginRight" placeholder="px" value="0">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Anchor Margin Left</p>
+                            <input type="number" id="anchorMarginLeft" placeholder="px" value="0">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Top Left Anchor Radius</p>
+                            <input type="number" id="anchorTopLeftRadius" placeholder="px" value="4">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Top Right Anchor Radius</p>
+                            <input type="number" id="anchorTopRightRadius" placeholder="px" value="4">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Bottom Left Anchor Radius</p>
+                            <input type="number" id="anchorBottomLeftRadius" placeholder="px" value="4">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Bottom Right Anchor Radius</p>
+                            <input type="number" id="anchorBottomRightRadius" placeholder="px" value="4">
+                        </div>
+                        <button id="applyAnchorStyle">Apply Anchor Style</button>
+                    </div>
+
+                    <button class="accordion">Input Setting</button>
+                    <div class="panel">
+                        <div class="mar-b">
+                            <p class="text">Input Text</p>
+                            <select id="columnSelect">
+                                <option value="" disabled selected>Select a column</option>
+                            </select>
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Input Color</p>
+                            <input type="color" id="inputTextColor" value="#000000">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Input Background Color</p>
+                            <input type="color" id="inputBgColor" value="#007bff">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Input Width Type</p>
+                            <select id="inputWidthType">
+                                <option value="px">Pixels</option>
+                                <option value="100%">100%</option>
+                            </select>
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Input Width</p>
+                            <input type="number" id="inputWidth" placeholder="px" value="100">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Input Margin Bottom</p>
+                            <input type="number" id="inputMarginBottom" placeholder="px" value="0">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Input Margin Top</p>
+                            <input type="number" id="inputMarginTop" placeholder="px" value="0">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Input Margin Right</p>
+                            <input type="number" id="inputMarginRight" placeholder="px" value="0">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Input Margin Left</p>
+                            <input type="number" id="inputMarginLeft" placeholder="px" value="0">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Top Left Input Radius</p>
+                            <input type="number" id="inputTopLeftRadius" placeholder="px" value="4">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Top Right Input Radius</p>
+                            <input type="number" id="inputTopRightRadius" placeholder="px" value="4">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Bottom Left Input Radius</p>
+                            <input type="number" id="inputBottomLeftRadius" placeholder="px" value="4">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Bottom Right Input Radius</p>
+                            <input type="number" id="inputBottomRightRadius" placeholder="px" value="4">
+                        </div>
+                        <button id="applyInputStyle">Apply Input Style</button>
+                    </div>
+
+                    <button class="accordion">Button Setting</button>
+                    <div class="panel">
+                        <div class="mar-b">
+                            <p class="text">Button Text</p>
+                            <input type="text" id="buttonText" placeholder="Enter button text" value="Click me!">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Button Color</p>
+                            <input type="color" id="buttonTextColor" value="#ffffff">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Button Background Color</p>
+                            <input type="color" id="buttonBgColor" value="#007bff">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Button Width</p>
+                            <select id="buttonWidth">
+                                <option value="auto">Fit to Content</option>
+                                <option value="100%">100%</option>
+                            </select>
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Button Position</p>
+                            <select id="justifyContent2">
+                                <option value="flex-start">Left</option>
+                                <option value="center" selected>Center</option>
+                                <option value="flex-end">Right</option>
+                            </select>
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Button Margin Bottom</p>
+                            <input type="number" id="buttonMarginBottom" placeholder="px" value="0">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Button Margin Top</p>
+                            <input type="number" id="buttonMarginTop" placeholder="px" value="0">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Button Margin Right</p>
+                            <input type="number" id="buttonMarginRight" placeholder="px" value="0">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Button Margin Left</p>
+                            <input type="number" id="buttonMarginLeft" placeholder="px" value="0">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Top Left Button Radius</p>
+                            <input type="number" id="buttonTopLeftRadius" placeholder="px" value="4">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Top Right Button Radius</p>
+                            <input type="number" id="buttonTopRightRadius" placeholder="px" value="4">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Bottom Left Button Radius</p>
+                            <input type="number" id="buttonBottomLeftRadius" placeholder="px" value="4">
+                        </div>
+                        <div class="mar-b">
+                            <p class="text">Bottom Right Button Radius</p>
+                            <input type="number" id="buttonBottomRightRadius" placeholder="px" value="4">
+                        </div>
+                        <button id="applyButtonStyle">Apply Button Style</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div id="bottom-right-div" class="box-1"></div>
+            <div id="bottom-left-div" class="box-1"></div>
+            <div id="top-right-div" class="box-1"></div>
+            <div id="top-left-div" class="box-1"></div>
+            <div id="center-div" class="box-1"></div>
+        </div>
+    </div>
+
+    <script>
+        function btnSelect() {
+            var btnSelect = document.getElementById("btn-select");
+            var btnAdd = document.getElementById("btn-add");
+            var btnContent = document.getElementById("btn-content");
+            var selectDiv = document.getElementById("select-div");
+            var addDiv = document.getElementById("add-div");
+            var contentDiv = document.getElementById("content-div");
+            btnSelect.style.backgroundColor = "#1E293B";
+            btnSelect.style.color = "#fff";
+            btnAdd.style.backgroundColor = "transparent";
+            btnAdd.style.color = "#C1C1C1";
+            btnContent.style.backgroundColor = "transparent";
+            btnContent.style.color = "#C1C1C1";
+            selectDiv.style.display = "block";
+            addDiv.style.display = "none";
+            contentDiv.style.display = "none";
+        }
+
+        function btnAdd() {
+            var btnSelect = document.getElementById("btn-select");
+            var btnAdd = document.getElementById("btn-add");
+            var btnContent = document.getElementById("btn-content");
+            var selectDiv = document.getElementById("select-div");
+            var addDiv = document.getElementById("add-div");
+            var contentDiv = document.getElementById("content-div");
+            btnSelect.style.backgroundColor = "transparent";
+            btnSelect.style.color = "#C1C1C1";
+            btnAdd.style.backgroundColor = "#1E293B";
+            btnAdd.style.color = "#fff";
+            btnContent.style.backgroundColor = "transparent";
+            btnContent.style.color = "#C1C1C1";
+            selectDiv.style.display = "none";
+            addDiv.style.display = "block";
+            contentDiv.style.display = "none";
+        }
+
+        function btnContent() {
+            var btnSelect = document.getElementById("btn-select");
+            var btnAdd = document.getElementById("btn-add");
+            var btnContent = document.getElementById("btn-content");
+            var selectDiv = document.getElementById("select-div");
+            var addDiv = document.getElementById("add-div");
+            var contentDiv = document.getElementById("content-div");
+            btnSelect.style.backgroundColor = "transparent";
+            btnSelect.style.color = "#C1C1C1";
+            btnAdd.style.backgroundColor = "transparent";
+            btnAdd.style.color = "#C1C1C1";
+            btnContent.style.backgroundColor = "#1E293B";
+            btnContent.style.color = "#fff";
+            selectDiv.style.display = "none";
+            addDiv.style.display = "none";
+            contentDiv.style.display = "block";
+        }
+
+        function btnBottomRight() {
+            var imgBottomRight = document.getElementById("img-bottom-right");
+            var imgBottomLeft = document.getElementById("img-bottom-left");
+            var imgTopRight = document.getElementById("img-top-right");
+            var imgTopLeft = document.getElementById("img-top-left");
+            var imgCenter = document.getElementById("img-center");
+            var bottomRightDiv = document.getElementById("bottom-right-div");
+            var bottomLeftDiv = document.getElementById("bottom-left-div");
+            var topRightDiv = document.getElementById("top-right-div");
+            var topLeftDiv = document.getElementById("top-left-div");
+            var centerDiv = document.getElementById("center-div");
+
+            bottomRightDiv.style.display = "flex";
+            bottomLeftDiv.style.display = "none";
+            topRightDiv.style.display = "none";
+            topLeftDiv.style.display = "none";
+            centerDiv.style.display = "none";
+
+            imgBottomRight.style.border = "4px solid #1849D6";
+            imgBottomLeft.style.border = "none";
+            imgTopRight.style.border = "none";
+            imgTopLeft.style.border = "none";
+            imgCenter.style.border = "none";
+        }
+
+        function btnBottomLeft() {
+            var imgBottomRight = document.getElementById("img-bottom-right");
+            var imgBottomLeft = document.getElementById("img-bottom-left");
+            var imgTopRight = document.getElementById("img-top-right");
+            var imgTopLeft = document.getElementById("img-top-left");
+            var imgCenter = document.getElementById("img-center");
+            var bottomRightDiv = document.getElementById("bottom-right-div");
+            var bottomLeftDiv = document.getElementById("bottom-left-div");
+            var topRightDiv = document.getElementById("top-right-div");
+            var topLeftDiv = document.getElementById("top-left-div");
+            var centerDiv = document.getElementById("center-div");
+
+            bottomRightDiv.style.display = "none";
+            bottomLeftDiv.style.display = "flex";
+            topRightDiv.style.display = "none";
+            topLeftDiv.style.display = "none";
+            centerDiv.style.display = "none";
+
+            imgBottomRight.style.border = "none";
+            imgBottomLeft.style.border = "4px solid #1849D6";
+            imgTopRight.style.border = "none";
+            imgTopLeft.style.border = "none";
+            imgCenter.style.border = "none";
+        }
+
+        function btnTopRight() {
+            var imgBottomRight = document.getElementById("img-bottom-right");
+            var imgBottomLeft = document.getElementById("img-bottom-left");
+            var imgTopRight = document.getElementById("img-top-right");
+            var imgTopLeft = document.getElementById("img-top-left");
+            var imgCenter = document.getElementById("img-center");
+            var bottomRightDiv = document.getElementById("bottom-right-div");
+            var bottomLeftDiv = document.getElementById("bottom-left-div");
+            var topRightDiv = document.getElementById("top-right-div");
+            var topLeftDiv = document.getElementById("top-left-div");
+            var centerDiv = document.getElementById("center-div");
+
+            bottomRightDiv.style.display = "none";
+            bottomLeftDiv.style.display = "none";
+            topRightDiv.style.display = "flex";
+            topLeftDiv.style.display = "none";
+            centerDiv.style.display = "none";
+
+            imgBottomRight.style.border = "none";
+            imgBottomLeft.style.border = "none";
+            imgTopRight.style.border = "4px solid #1849D6";
+            imgTopLeft.style.border = "none";
+            imgCenter.style.border = "none";
+        }
+
+        function btnTopLeft() {
+            var imgBottomRight = document.getElementById("img-bottom-right");
+            var imgBottomLeft = document.getElementById("img-bottom-left");
+            var imgTopRight = document.getElementById("img-top-right");
+            var imgTopLeft = document.getElementById("img-top-left");
+            var imgCenter = document.getElementById("img-center");
+            var bottomRightDiv = document.getElementById("bottom-right-div");
+            var bottomLeftDiv = document.getElementById("bottom-left-div");
+            var topRightDiv = document.getElementById("top-right-div");
+            var topLeftDiv = document.getElementById("top-left-div");
+            var centerDiv = document.getElementById("center-div");
+
+            bottomRightDiv.style.display = "none";
+            bottomLeftDiv.style.display = "none";
+            topRightDiv.style.display = "none";
+            topLeftDiv.style.display = "flex";
+            centerDiv.style.display = "none";
+
+            imgBottomRight.style.border = "none";
+            imgBottomLeft.style.border = "none";
+            imgTopRight.style.border = "none";
+            imgTopLeft.style.border = "4px solid #1849D6";
+            imgCenter.style.border = "none";
+        }
+
+        function btnCenter() {
+            var imgBottomRight = document.getElementById("img-bottom-right");
+            var imgBottomLeft = document.getElementById("img-bottom-left");
+            var imgTopRight = document.getElementById("img-top-right");
+            var imgTopLeft = document.getElementById("img-top-left");
+            var imgCenter = document.getElementById("img-center");
+            var bottomRightDiv = document.getElementById("bottom-right-div");
+            var bottomLeftDiv = document.getElementById("bottom-left-div");
+            var topRightDiv = document.getElementById("top-right-div");
+            var topLeftDiv = document.getElementById("top-left-div");
+            var centerDiv = document.getElementById("center-div");
+
+            bottomRightDiv.style.display = "none";
+            bottomLeftDiv.style.display = "none";
+            topRightDiv.style.display = "none";
+            topLeftDiv.style.display = "none";
+            centerDiv.style.display = "flex";
+
+            imgBottomRight.style.border = "none";
+            imgBottomLeft.style.border = "none";
+            imgTopRight.style.border = "none";
+            imgTopLeft.style.border = "none";
+            imgCenter.style.border = "4px solid #1849D6";
+        }
+
+        // for accordian
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+
+                var panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                } else {
+                    panel.style.display = "block";
+                }
+            });
+        }
+
+
+        // for styling div
+        function changeBackgroundImage(event) {
+            const divs = document.querySelectorAll(".box-1");
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    divs.forEach(div => {
+                        div.style.backgroundImage = `url('${e.target.result}')`;
+                    });
+                };
+
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function changeBackgroundColor(event) {
+            const divs = document.querySelectorAll(".box-1");
+            const color = event.target.value;
+
+            divs.forEach(div => {
+                div.style.backgroundColor = color;
+            });
+        }
+
+        function changeBackgroundSize(event) {
+            const divs = document.querySelectorAll(".box-1");
+            const size = event.target.value;
+
+            divs.forEach(div => {
+                div.style.backgroundSize = size;
+            });
+        }
+
+        function changeBorderRadius(event) {
+            const divs = document.querySelectorAll(".box-1");
+            const radius = event.target.value;
+
+            divs.forEach(div => {
+                div.style.borderRadius = radius;
+            });
+        }
+
+        // for popup
+        function loadPopup(popupId) {
+            const placeholders = document.querySelectorAll('.box-1');
+
+            fetch('pop-up.html')
+                .then(response => response.text())
+                .then(data => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(data, 'text/html');
+                    const selectedPopup = doc.querySelector(`#${popupId}`);
+
+                    if (selectedPopup) {
+                        placeholders.forEach(placeholder => {
+                            placeholder.innerHTML = selectedPopup.outerHTML;
+                        });
+                    } else {
+                        alert('Popup not found!');
+                    }
+                    initializeImageUpload()
+                })
+                .catch(error => {
+                    console.error('Error loading the popup:', error);
+                });
+        }
+
+        //for Images
+
+        function initializeImageUpload() {
+            const fileInput = document.getElementById('fileInput');
+            const imageElement = document.querySelectorAll('.img-100');
+            const imageContainer = document.querySelectorAll('.img-container');
+
+            fileInput.addEventListener('change', function () {
+                const file = fileInput.files[0];
+
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        imageElement.forEach(div => {
+                            div.src = e.target.result;
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('No file selected.');
+                }
+            });
+
+            const applyImageStylesButton = document.getElementById('applyImageStyles');
+
+            applyImageStylesButton.addEventListener('click', function () {
+                const imageWidth = document.getElementById('imageWidth').value;
+                const imageWidthType = document.getElementById('imageWidthType').value;
+                const justifyContent = document.getElementById('justifyContent').value;
+                const topLeft = document.getElementById('topLeftRadius').value || 0;
+                const topRight = document.getElementById('topRightRadius').value || 0;
+                const bottomLeft = document.getElementById('bottomLeftRadius').value || 0;
+                const bottomRight = document.getElementById('bottomRightRadius').value || 0;
+                const marginTopImage = document.getElementById('marginTopImage').value || 0;
+                const marginRightImage = document.getElementById('marginRightImage').value || 0;
+                const marginBottomImage = document.getElementById('marginBottomImage').value || 0;
+                const marginLeftImage = document.getElementById('marginLeftImage').value || 0;
+
+                imageElement.forEach(image => {
+                    if (imageWidthType === '100%') {
+                        image.style.width = '100%';
+                    } else {
+                        image.style.width = `${imageWidth}px`;
+                    }
+                    image.style.borderRadius = `${topLeft}px ${topRight}px ${bottomLeft}px ${bottomRight}px`;
+                    image.style.margin = `${marginTopImage}px ${marginRightImage}px ${marginBottomImage}px ${marginLeftImage}px`;
+                });
+                imageContainer.forEach(container => {
+                    container.style.justifyContent = justifyContent;
+                });
+            });
+
+            const applyTextStyleButton = document.getElementById('applyTextStyle');
+
+            applyTextStyleButton.addEventListener('click', function () {
+                const editableText = document.querySelectorAll('.editable-text');
+                const fontSize = document.getElementById('fontSize').value || 16;
+                const fontWeight = document.getElementById('fontWeight').value;
+                const fontColor = document.getElementById('fontColor').value;
+                const textAlign = document.getElementById('textAlign').value;
+                const marginBottom = document.getElementById('marginBottom').value || 0;
+
+
+                editableText.forEach(textStyle => {
+                    textStyle.style.fontSize = `${fontSize}px`;
+                    textStyle.style.fontWeight = fontWeight;
+                    textStyle.style.color = fontColor;
+                    textStyle.style.textAlign = textAlign;
+                    textStyle.style.marginBottom = `${marginBottom}px`;
+                });
+            });
+
+            const applyTextStyleButton1 = document.getElementById('applyTextStyle1');
+
+            applyTextStyleButton1.addEventListener('click', function () {
+                const editableText1 = document.querySelectorAll('.editable-text1');
+                const fontSize1 = document.getElementById('fontSize1').value || 16;
+                const fontWeight1 = document.getElementById('fontWeight1').value;
+                const fontColor1 = document.getElementById('fontColor1').value;
+                const textAlign1 = document.getElementById('textAlign1').value;
+                const marginBottom1 = document.getElementById('marginBottom1').value || 0;
+
+                editableText1.forEach(textStyle1 => {
+                    textStyle1.style.fontSize = `${fontSize1}px`;
+                    textStyle1.style.fontWeight = fontWeight1;
+                    textStyle1.style.color = fontColor1;
+                    textStyle1.style.textAlign = textAlign1;
+                    textStyle1.style.marginBottom = `${marginBottom1}px`;
+                });
+            });
+
+            const applyTextStyleButton2 = document.getElementById('applyTextStyle2');
+
+            applyTextStyleButton2.addEventListener('click', function () {
+                const editableText2 = document.querySelectorAll('.editable-text2');
+                const fontSize2 = document.getElementById('fontSize2').value || 16;
+                const fontWeight2 = document.getElementById('fontWeight2').value;
+                const fontColor2 = document.getElementById('fontColor2').value;
+                const textAlign2 = document.getElementById('textAlign2').value;
+                const marginBottom2 = document.getElementById('marginBottom2').value || 0;
+
+                editableText2.forEach(textStyle2 => {
+                    textStyle2.style.fontSize = `${fontSize2}px`;
+                    textStyle2.style.fontWeight = fontWeight2;
+                    textStyle2.style.color = fontColor2;
+                    textStyle2.style.textAlign = textAlign2;
+                    textStyle2.style.marginBottom = `${marginBottom2}px`;
+                });
+            });
+
+            const applyAnchorStyleButton = document.getElementById('applyAnchorStyle');
+
+            applyAnchorStyleButton.addEventListener('click', function () {
+                const anchorElement = document.querySelectorAll('.btn-popup');
+                const anchorContainer = document.querySelectorAll('.anchor-container');
+                const justifyContent1 = document.getElementById('justifyContent1').value;
+                const anchorText = document.getElementById('anchorText').value;
+                const anchorHref = document.getElementById('anchorHref').value;
+                const anchorTextColor = document.getElementById('anchorTextColor').value;
+                const anchorBgColor = document.getElementById('anchorBgColor').value;
+                const anchorWidth = document.getElementById('anchorWidth').value;
+                const anchorMarginBottom = document.getElementById('anchorMarginBottom').value || 0;
+                const anchorMarginTop = document.getElementById('anchorMarginTop').value || 0;
+                const anchorMarginRight = document.getElementById('anchorMarginRight').value || 0;
+                const anchorMarginLeft = document.getElementById('anchorMarginLeft').value || 0;
+                const topLeftRadius = document.getElementById('anchorTopLeftRadius').value || 4;
+                const topRightRadius = document.getElementById('anchorTopRightRadius').value || 4;
+                const bottomLeftRadius = document.getElementById('anchorBottomLeftRadius').value || 4;
+                const bottomRightRadius = document.getElementById('anchorBottomRightRadius').value || 4;
+
+                anchorElement.forEach(aElement => {
+                    aElement.textContent = anchorText;
+                    aElement.href = anchorHref;
+                    aElement.style.color = anchorTextColor;
+                    aElement.style.backgroundColor = anchorBgColor;
+                    aElement.style.width = (anchorWidth === 'auto') ? 'auto' : '100%';
+                    aElement.style.margin = `${anchorMarginTop}px ${anchorMarginRight}px ${anchorMarginBottom}px ${anchorMarginLeft}px`;
+                    aElement.style.borderRadius = `${topLeftRadius}px ${topRightRadius}px ${bottomLeftRadius}px ${bottomRightRadius}px`;
+
+                });
+                anchorContainer.forEach(aContainer => {
+                    aContainer.style.justifyContent = justifyContent1;
+                });
+            });
+
+            const applyButtonStyleButton = document.getElementById('applyButtonStyle');
+
+            applyButtonStyleButton.addEventListener('click', function () {
+
+                const buttonElement = document.querySelectorAll('.btn-popup-2');
+                const buttonContainer = document.querySelectorAll('.button-container');
+                const justifyContent2 = document.getElementById('justifyContent2').value;
+                const buttonText = document.getElementById('buttonText').value;
+                const buttonTextColor = document.getElementById('buttonTextColor').value;
+                const buttonBgColor = document.getElementById('buttonBgColor').value;
+                const buttonWidth = document.getElementById('buttonWidth').value;
+                const buttonMarginBottom = document.getElementById('buttonMarginBottom').value || 0;
+                const buttonMarginTop = document.getElementById('buttonMarginTop').value || 0;
+                const buttonMarginRight = document.getElementById('buttonMarginRight').value || 0;
+                const buttonMarginLeft = document.getElementById('buttonMarginLeft').value || 0;
+                const buttonTopLeftRadius = document.getElementById('buttonTopLeftRadius').value || 4;
+                const buttonTopRightRadius = document.getElementById('buttonTopRightRadius').value || 4;
+                const buttonBottomLeftRadius = document.getElementById('buttonBottomLeftRadius').value || 4;
+                const buttonBottomRightRadius = document.getElementById('buttonBottomRightRadius').value || 4;
+
+                buttonElement.forEach(bElement => {
+                    bElement.textContent = buttonText;
+                    bElement.style.color = buttonTextColor;
+                    bElement.style.backgroundColor = buttonBgColor;
+                    bElement.style.width = (buttonWidth === 'auto') ? 'auto' : '100%';
+                    bElement.style.margin = `${buttonMarginTop}px ${buttonMarginRight}px ${buttonMarginBottom}px ${buttonMarginLeft}px`;
+                    bElement.style.borderRadius = `${buttonTopLeftRadius}px ${buttonTopRightRadius}px ${buttonBottomLeftRadius}px ${buttonBottomRightRadius}px`;
+
+                });
+                buttonContainer.forEach(bContainer => {
+                    bContainer.style.justifyContent = justifyContent2;
+                });
+            });
+
+            const applyInputStyleButton = document.getElementById('applyInputStyle');
+
+            applyInputStyleButton.addEventListener('click', function () {
+                const inputElement = document.querySelectorAll('.form-input');
+                const inputTextColor = document.getElementById('inputTextColor').value;
+                const inputBgColor = document.getElementById('inputBgColor').value;
+                const inputWidthType = document.getElementById('inputWidthType').value;
+                const inputWidth = document.getElementById('inputWidth').value;
+                const inputMarginBottom = document.getElementById('inputMarginBottom').value || 0;
+                const inputMarginTop = document.getElementById('inputMarginTop').value || 0;
+                const inputMarginRight = document.getElementById('inputMarginRight').value || 0;
+                const inputMarginLeft = document.getElementById('inputMarginLeft').value || 0;
+                const inputTopLeftRadius = document.getElementById('inputTopLeftRadius').value || 4;
+                const inputTopRightRadius = document.getElementById('inputTopRightRadius').value || 4;
+                const inputBottomLeftRadius = document.getElementById('inputBottomLeftRadius').value || 4;
+                const inputBottomRightRadius = document.getElementById('inputBottomRightRadius').value || 4;
+
+                inputElement.forEach(iElement => {
+                    if (inputWidthType === '100%') {
+                        iElement.style.width = '100%';
+                    } else {
+                        iElement.style.width = `${inputWidth}px`;
+                    }
+                    iElement.style.color = inputTextColor;
+                    iElement.style.backgroundColor = inputBgColor;
+                    iElement.style.margin = `${inputMarginTop}px ${inputMarginRight}px ${inputMarginBottom}px ${inputMarginLeft}px`;
+                    iElement.style.borderRadius = `${inputTopLeftRadius}px ${inputTopRightRadius}px ${inputBottomLeftRadius}px ${inputBottomRightRadius}px`;
+
+                });
+            });
+        }
+
+        fetch('https://imperium-dynamics-cta.vercel.app/getCRMData')
+            .then(response => response.json())
+            .then(data => {
+                const selectElement = document.getElementById('columnSelect');
+                for (const [logicalName, displayName] of Object.entries(data)) {
+                    if (displayName !== 'N/A' && displayName) {
+                        const option = document.createElement('option');
+                        option.value = logicalName;
+                        option.textContent = displayName;
+                        selectElement.appendChild(option);
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+
+        // Event listeners for the popup selection buttons
+        document.getElementById('selectPopup1').addEventListener('click', () => {
+            loadPopup('popup-1');
+        });
+
+        document.getElementById('selectPopup2').addEventListener('click', () => {
+            loadPopup('popup-2');
+        });
+    </script>
+</body>
+
+</html>

@@ -301,7 +301,8 @@
 #selectPopup1,
 #selectPopup2,
 #applyButtonStyle,
-#applyInputStyle {
+#applyInputStyle,
+.generateHtml {
   padding: 8px 20px;
   border-radius: 6px;
   background-color: #1849d6;
@@ -319,7 +320,8 @@
 #selectPopup1:hover,
 #selectPopup2:hover,
 #applyButtonStyle:hover,
-#applyInputStyle:hover {
+#applyInputStyle:hover,
+.generateHtml:hover {
   opacity: 0.8;
 }
 
@@ -331,7 +333,8 @@
 #selectPopup1:focus,
 #selectPopup2:focus,
 #applyButtonStyle:focus,
-#applyInputStyle:focus {
+#applyInputStyle:focus,
+.generateHtml:focus {
   outline: none;
   border: none;
 }

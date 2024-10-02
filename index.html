@@ -292,7 +292,7 @@
                     <div class="panel">
                         <div class="mar-b">
                             <p class="text">Input Text</p>
-                            <select id="columnSelect">
+                            <select id="columnSelect" class="select-box">
                                 <option value="" disabled selected>Select a column</option>
                             </select>
                         </div>
@@ -413,6 +413,10 @@
                         </div>
                         <button id="applyButtonStyle">Apply Button Style</button>
                     </div>
+
+                    <button class="generateHtml"
+                        onclick="console.log(getInnerHTMLWithDefinedStyles('#bottom-right-div'));">Generate
+                        HTML</button>
                 </div>
             </div>
         </div>
@@ -686,7 +690,7 @@
                     } else {
                         alert('Popup not found!');
                     }
-                    initializeImageUpload()
+                    initializeImageUpload();
                 })
                 .catch(error => {
                     console.error('Error loading the popup:', error);
@@ -876,6 +880,7 @@
 
             applyInputStyleButton.addEventListener('click', function () {
                 const inputElement = document.querySelectorAll('.form-input');
+                const inputColumn = document.getElementById('columnSelect').value;
                 const inputTextColor = document.getElementById('inputTextColor').value;
                 const inputBgColor = document.getElementById('inputBgColor').value;
                 const inputWidthType = document.getElementById('inputWidthType').value;
@@ -896,30 +901,119 @@
                         iElement.style.width = `${inputWidth}px`;
                     }
                     iElement.style.color = inputTextColor;
+                    iElement.placeholder = `Enter ${inputColumn}`;
                     iElement.style.backgroundColor = inputBgColor;
                     iElement.style.margin = `${inputMarginTop}px ${inputMarginRight}px ${inputMarginBottom}px ${inputMarginLeft}px`;
                     iElement.style.borderRadius = `${inputTopLeftRadius}px ${inputTopRightRadius}px ${inputBottomLeftRadius}px ${inputBottomRightRadius}px`;
 
                 });
             });
+
+            // Post Request
+            function attachFormHandlers() {
+                const formContainers = document.querySelectorAll('.form-container');
+
+                formContainers.forEach(formContainer => {
+                    const inputField = formContainer.querySelector('.form-input');
+                    const submitBtnForm = formContainer.querySelector('.btn-popup-2');
+
+                    // Attach event listener to the button
+                    submitBtnForm.addEventListener('click', async function () {
+                        const selectBox = document.querySelector('.select-box'); // Select box outside the form
+                        const selectedColumnKey = selectBox.value;
+                        const inputValue = inputField.value;
+
+                        if (!selectedColumnKey) {
+                            alert('Please select a column.');
+                            return;
+                        }
+
+                        if (!inputValue) {
+                            alert('Please enter a value.');
+                            return;
+                        }
+
+                        // URL to send the final POST request
+                        const url3 = "https://prod-28.westus.logic.azure.com:443/workflows/c3655822addc49ee90b8de3df697fa15/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=fZD02EnY21upqef12UmwTnED6DF4iE9bz3RVo0U_Qeo";
+
+                        const body1 = {
+                            [selectedColumnKey]: inputValue // Dynamic property
+                        };
+
+                        console.log(body1)
+
+                        try {
+                            // Send the POST request
+                            const response = await fetch(url3, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(body1)
+                            });
+
+                            const result = await response.json();
+                            console.log("Post request result:", result); // Log result to console
+
+                        } catch (error) {
+                            console.error('Error during POST request:', error); // Log error to console
+                        }
+                    });
+                });
+            }
+
+            attachFormHandlers();
         }
 
-        fetch('https://imperium-dynamics-cta.vercel.app/getCRMData')
-            .then(response => response.json())
-            .then(data => {
-                const selectElement = document.getElementById('columnSelect');
-                for (const [logicalName, displayName] of Object.entries(data)) {
-                    if (displayName !== 'N/A' && displayName) {
-                        const option = document.createElement('option');
-                        option.value = logicalName;
-                        option.textContent = displayName;
-                        selectElement.appendChild(option);
+
+        // Get Request
+        async function executePostRequests() {
+            const url2 = "https://prod-30.westus.logic.azure.com:443/workflows/8c7d7a4f6c0146cc847dea6efa934696/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=p76p2QJI_Qx980HnGgJqaWFZwD4h1Np356JrHQb0yZA";
+
+            console.log("Starting POST request...");
+
+            try {
+                // Second POST request (without body)
+                console.log("Sending POST request...");
+                const response2 = await fetch(url2, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
                     }
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
+                });
+
+                const data2 = await response2.json(); // Parse JSON response
+                console.log("Response received:", data2);
+
+                // Populate the select box with the values from the data2 response
+                populateSelectBox('columnSelect', data2);
+
+            } catch (error) {
+                console.error('Error:', error);
+                document.body.innerHTML += `<h3>Error:</h3><pre>${error}</pre>`;
+            }
+        }
+
+        // Function to populate a select box with values from the response
+        function populateSelectBox(selectBoxId, data) {
+            const selectBox = document.getElementById(selectBoxId);
+
+            // Clear existing options
+            selectBox.innerHTML = '';
+
+            // Assuming the response contains an object, we extract its values
+            const values = Object.values(data); // Adjust this based on the actual structure of data2
+
+            values.forEach(value => {
+                const option = document.createElement('option');
+                option.value = value;
+                option.textContent = value;
+                selectBox.appendChild(option);
             });
+        }
+
+        // Execute the functions when the page loads
+        executePostRequests();
 
         // Event listeners for the popup selection buttons
         document.getElementById('selectPopup1').addEventListener('click', () => {
@@ -929,6 +1023,80 @@
         document.getElementById('selectPopup2').addEventListener('click', () => {
             loadPopup('popup-2');
         });
+
+        function getInnerHTMLWithDefinedStyles(selector) {
+            const parentElement = document.querySelector(selector);
+            if (!parentElement) return '';
+
+            const innerHTML = parentElement.innerHTML; // Get the inner HTML of the parent element
+            const usedCSS = new Set(); // To store unique CSS properties used
+            const stylesMap = new Map(); // To map element classes to their styles
+
+            // Function to extract styles for a specific element
+            function extractStyles(element) {
+                // Get inline styles directly from the element
+                const inlineStyle = element.getAttribute('style');
+                if (inlineStyle) {
+                    inlineStyle.split(';').forEach(style => {
+                        const [property, value] = style.split(':').map(s => s.trim());
+                        if (property && value) {
+                            usedCSS.add(property);
+                            stylesMap.set(property, value);
+                        }
+                    });
+                }
+
+                // Check for styles defined in stylesheets
+                for (const sheet of document.styleSheets) {
+                    try {
+                        const rules = sheet.cssRules || sheet.rules;
+                        for (const rule of rules) {
+                            if (rule.selectorText && rule.selectorText.includes(element.tagName.toLowerCase())) {
+                                for (const property of rule.style) {
+                                    const value = rule.style[property];
+                                    if (value) {
+                                        usedCSS.add(property);
+                                        stylesMap.set(property, value);
+                                    }
+                                }
+                            }
+                        }
+                    } catch (e) {
+                        console.warn("Unable to access styles from stylesheet:", e);
+                    }
+                }
+            }
+
+            // Extract styles for the parent element
+            extractStyles(parentElement);
+
+            // Extract styles for all child elements
+            const allElements = parentElement.querySelectorAll('*');
+            allElements.forEach(element => extractStyles(element));
+
+            // Build CSS string with only the defined properties
+            let cssText = '';
+            for (const property of usedCSS) {
+                cssText += `${property}: ${stylesMap.get(property) || ''};\n`;
+            }
+
+            // Create a style block for the used properties
+            cssText = `
+                .parent-div {
+                    ${cssText}
+                }
+            `;
+
+            return `
+                <style>
+                    ${cssText}
+                </style>
+                <div class="parent-div">
+                    ${innerHTML}
+                </div>
+            `;
+        }
+
     </script>
 </body>
 

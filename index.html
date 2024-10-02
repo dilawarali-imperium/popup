@@ -414,9 +414,7 @@
                         <button id="applyButtonStyle">Apply Button Style</button>
                     </div>
 
-                    <button class="generateHtml"
-                        onclick="console.log(getInnerHTMLWithDefinedStyles('#bottom-right-div'));">Generate
-                        HTML</button>
+                    <button class="generateHtml" onclick="generateHTMLWithStyle()">Generate HTML</button>
                 </div>
             </div>
         </div>
@@ -1028,73 +1026,111 @@
             const parentElement = document.querySelector(selector);
             if (!parentElement) return '';
 
-            const innerHTML = parentElement.innerHTML; // Get the inner HTML of the parent element
-            const usedCSS = new Set(); // To store unique CSS properties used
-            const stylesMap = new Map(); // To map element classes to their styles
+            const usedCSS = new Map(); // To store element -> CSS properties mapping
+
+            // Function to generate a unique class name for an element
+            function generateClassName(element, index, isParent = false) {
+                if (isParent) return `parent-class`;
+                if (element.tagName.toLowerCase() === 'div') return `div-class-${index}`;
+                if (element.tagName.toLowerCase() === 'img') return `img-class-${index}`;
+                if (element.tagName.toLowerCase() === 'a') return `a-class-${index}`;
+                if (element.tagName.toLowerCase() === 'button') return `button-class-${index}`;
+                return `element-class-${index}`;
+            }
 
             // Function to extract styles for a specific element
-            function extractStyles(element) {
-                // Get inline styles directly from the element
+            function extractStyles(element, className) {
                 const inlineStyle = element.getAttribute('style');
-                if (inlineStyle) {
-                    inlineStyle.split(';').forEach(style => {
-                        const [property, value] = style.split(':').map(s => s.trim());
-                        if (property && value) {
-                            usedCSS.add(property);
-                            stylesMap.set(property, value);
-                        }
-                    });
-                }
+                let elementStyles = '';
 
-                // Check for styles defined in stylesheets
+                // Collect external styles first (these will be overwritten by inline styles)
                 for (const sheet of document.styleSheets) {
                     try {
                         const rules = sheet.cssRules || sheet.rules;
                         for (const rule of rules) {
-                            if (rule.selectorText && rule.selectorText.includes(element.tagName.toLowerCase())) {
+                            if (rule.selectorText && element.matches(rule.selectorText)) {
                                 for (const property of rule.style) {
                                     const value = rule.style[property];
                                     if (value) {
-                                        usedCSS.add(property);
-                                        stylesMap.set(property, value);
+                                        elementStyles += `${property}: ${value};\n`;
                                     }
                                 }
                             }
                         }
                     } catch (e) {
-                        console.warn("Unable to access styles from stylesheet:", e);
+                        if (e.name !== 'SecurityError') {
+                            console.warn("Error accessing stylesheet:", e);
+                        }
                     }
                 }
-            }
 
-            // Extract styles for the parent element
-            extractStyles(parentElement);
-
-            // Extract styles for all child elements
-            const allElements = parentElement.querySelectorAll('*');
-            allElements.forEach(element => extractStyles(element));
-
-            // Build CSS string with only the defined properties
-            let cssText = '';
-            for (const property of usedCSS) {
-                cssText += `${property}: ${stylesMap.get(property) || ''};\n`;
-            }
-
-            // Create a style block for the used properties
-            cssText = `
-                .parent-div {
-                    ${cssText}
+                // Collect inline styles (which will overwrite any external styles)
+                if (inlineStyle) {
+                    inlineStyle.split(';').forEach(style => {
+                        const [property, value] = style.split(':').map(s => s.trim());
+                        if (property && value) {
+                            elementStyles += `${property}: ${value};\n`;
+                        }
+                    });
                 }
-            `;
 
+                // Store the collected styles in the map with the generated class name
+                if (elementStyles) {
+                    usedCSS.set(className, elementStyles);
+                }
+            }
+
+            // Assign classes to parent and all inner elements
+            function assignClassesAndExtractStyles(element) {
+                const allElements = element.querySelectorAll('*');
+                allElements.forEach((child, index) => {
+                    const className = generateClassName(child, index + 1); // Use index+1 to ensure unique classes
+                    child.classList.add(className); // Add unique class to the element
+                    extractStyles(child, className);
+                });
+            }
+
+            // Extract styles for the parent element separately
+            const parentClassName = generateClassName(parentElement, 0, true); // Generate a separate class for parent
+            parentElement.classList.add(parentClassName);
+            extractStyles(parentElement, parentClassName);
+
+            // Assign classes and extract styles for inner elements
+            assignClassesAndExtractStyles(parentElement);
+
+            // Build the CSS text
+            let cssText = '';
+            for (const [className, styles] of usedCSS) {
+                cssText += `.${className} {\n${styles}}\n`;
+            }
+
+            // Get the inner HTML of the parent element
+            const innerHTML = parentElement.innerHTML;
+
+            // Return the HTML with the styles
             return `
                 <style>
                     ${cssText}
                 </style>
-                <div class="parent-div">
+                <div class="${parentClassName}">
                     ${innerHTML}
                 </div>
             `;
+        }
+
+        function generateHTMLWithStyle() {
+            const divs = document.querySelectorAll(".box-1"); // Select all divs with the class 'box-1'
+
+            divs.forEach(div => {
+                const computedStyle = window.getComputedStyle(div); // Get computed styles
+                if (computedStyle.display === "flex") { // Check if display is 'flex'
+                    // Set position to fixed
+                    div.style.position = 'fixed';
+
+                    // Log the ID and styles of the div
+                    console.log(getInnerHTMLWithDefinedStyles(`#${div.id}`));
+                }
+            });
         }
 
     </script>
